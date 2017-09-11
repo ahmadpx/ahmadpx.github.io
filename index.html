@@ -39,11 +39,11 @@
         <li>History & Future</li>
         <li>Features & Support</li>
         <li>Declarations ( let, const )</li>
-        <li>Functions ( Rest params, Spread operator, Arrow functions )</li>
-        <li>Objects ( initializers, destructuring, assign )</li>
+        <li>Functions ( Rest params, Spread operator, Default Params, Arrow functions )</li>
+        <li>Objects ( Destructuring, Assign )</li>
         <li>Arrays, Maps and Sets</li>
         <li>Classes & Modules</li>
-        <li>Promises, Iterators and Generators</li>
+        <li>What is next ?</li>
       </ul>
     </section>
     
@@ -468,7 +468,7 @@
       <section>
         <h2>destructuring</h2>
       </section>
-  
+      
       <section>
         <pre>
           <code class="JavaScript" data-trim data-noescape>
@@ -530,7 +530,7 @@
           </code>
         </pre>
       </section>
-  
+      
       <section>
         <p>Or you can map an object to an array, such as</p>
         <pre>
@@ -544,7 +544,7 @@
           </code>
         </pre>
       </section>
-  
+      
       <section>
         <p>Or the other way around</p>
         <pre>
@@ -558,7 +558,7 @@
           </code>
         </pre>
       </section>
-  
+      
       <section>
         <p>Or you could reorder one array to another</p>
         <pre>
@@ -572,7 +572,7 @@
           </code>
         </pre>
       </section>
-  
+      
       <section>
         <p>Swap two variables</p>
         <pre>
@@ -601,8 +601,14 @@
         </pre>
       </section>
       
+      
       <section>
         <h2>Object.assign</h2>
+        <pre class="fragment">
+          <code class="JavaScript" data-trim data-noescape>
+            let config = Object.assign( {}, defaults, config );
+          </code>
+        </pre>
       </section>
     </section>
     
@@ -630,35 +636,202 @@
     <!-- ========================================= -->
     <section>
       <section>
-        <h2>Classes & Modules</h2>
-      </section>
-      
-      <section>
-        <h2>Classes</h2>
-      </section>
-      
-      <section>
         <h2>Modules</h2>
       </section>
+      
+      <section>
+        <h2>The old way</h2>
+      </section>
+      
+      <section>
+        <pre>
+          <code class="JavaScript" data-trim data-noescape>
+            function Hello(name) {
+              function greeting() {
+                console.log( "Hello " + name + "!" );
+              }
+            
+              // public API
+              return {
+                greeting: greeting
+              };
+            }
+            
+            var me = Hello( "Ahmed" );
+            
+            me.greeting(); // Hello Ahmed!
+          </code>
+        </pre>
+      </section>
+      
+      <section>
+        <pre>
+          <code class="JavaScript" data-trim data-noescape>
+            var me = (function Hello(name){
+              function greeting() {
+                console.log( "Hello " + name + "!" );
+              }
+            
+              // public API
+              return {
+                greeting: greeting
+              };
+            })( "Ahmed" );
+            
+            me.greeting(); // Hello Ahmed!
+          </code>
+        </pre>
+      </section>
+      
+      <section>
+        <h2>The new way</h2>
+      </section>
+  
+      <section>
+        <h2>`export`ing API Members</h2>
+      </section>
+      
+      <section>
+        <p>named exports</p>
+        <pre>
+          <code class="JavaScript" data-trim data-noescape>
+            export function foo() {
+              // ..
+            }
+            
+            export var awesome = 42;
+            
+            var bar = [1,2,3];
+            
+            export { bar };
+          </code>
+        </pre>
+        
+        <pre class="fragment">
+          <code class="JavaScript" data-trim data-noescape>
+            function foo() {
+              // ..
+            }
+            var awesome = 42;
+            var bar = [1,2,3];
+            
+            export { foo, awesome, bar };
+          </code>
+        </pre>
+      </section>
+      
+      <section>
+        <p>export as syntax</p>
+        <pre>
+          <code class="JavaScript" data-trim data-noescape>
+            function foo() {
+              // ..
+            }
+            
+            export { foo as bar };
+          </code>
+        </pre>
+      </section>
+      
+      <section>
+        <p>default export</p>
+        <pre>
+          <code class="JavaScript" data-trim data-noescape>
+            export default function foo(..) {
+              // ..
+            }
+          </code>
+        </pre>
+        
+        <pre class="fragment">
+          <code class="JavaScript" data-trim data-noescape>
+            function foo(..) {
+              // ..
+            }
+            export { foo as default };
+          </code>
+        </pre>
+        
+        <pre class="fragment">
+          <code class="JavaScript" data-trim data-noescape>
+            function foo() { .. }
+            function bar() { .. }
+            function baz() { .. }
+            export { foo as default, bar, baz, .. };
+          </code>
+        </pre>
+      </section>
+    </section>
+  
+    <section>
+      <h2>`import`ing API Members</h2>
+    </section>
+    
+    <section>
+      <p>named imports</p>
+      <pre>
+        <code class="JavaScript" data-trim data-noescape>
+          import { foo } from "foo";
+          foo();
+        </code>
+      </pre>
+      
+      <pre class="fragment">
+        <code class="JavaScript" data-trim data-noescape>
+          import { foo as theFooFunc } from "foo";
+          theFooFunc();
+        </code>
+      </pre>
+    </section>
+    
+    <section>
+      <p>default imports</p>
+      <pre>
+        <code class="JavaScript" data-trim data-noescape>
+          export default function foo() { .. }
+          export function bar() { .. }
+          export function baz() { .. }
+          
+          // =========================
+          
+          import FOOFN, { bar, baz as BAZ } from "foo";
+          
+          FOOFN();
+          bar();
+          BAZ();
+        </code>
+      </pre>
+      
+      <pre>
+        <code class="JavaScript" data-trim data-noescape>
+          export function bar() { .. }
+          export var x = 42;
+          export function baz() { .. }
+          
+          // =========================
+          
+          import * as foo from "foo";
+
+          foo.bar();
+          foo.x; // 42
+          foo.baz();
+        </code>
+      </pre>
     </section>
     
     <!-- Promises, Iterators and Generators -->
     <!-- ========================================= -->
     <section>
       <section>
-        <h2>Promises, Iterators and Generators</h2>
+        <h2>What is next ?</h2>
       </section>
       
       <section>
-        <h2>Promises</h2>
-      </section>
-      
-      <section>
-        <h2>Iterators</h2>
-      </section>
-      
-      <section>
-        <h2>Generators</h2>
+        <p>Symbols</p>
+        <p class="fragment">Iterators</p>
+        <p class="fragment">Generators</p>
+        <p class="fragment">Promises</p>
+        <p class="fragment">Async, Await</p>
       </section>
     </section>
     
