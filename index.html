@@ -1,49 +1,497 @@
 <!doctype html>
 <html>
-	<head>
-		<meta charset="utf-8">
-		<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  
+  <title>reveal.js</title>
+  
+  <link rel="stylesheet" href="css/reveal.css">
+  <link rel="stylesheet" href="css/theme/black.css">
+  
+  <!-- Theme used for syntax highlighting of code -->
+  <link rel="stylesheet" href="lib/css/zenburn.css">
+  
+  <!-- Printing and PDF exports -->
+  <script>
+    var link = document.createElement('link');
+    link.rel = 'stylesheet';
+    link.type = 'text/css';
+    link.href = window.location.search.match(/print-pdf/gi) ? 'css/print/pdf.css' : 'css/print/paper.css';
+    document.getElementsByTagName('head')[0].appendChild(link);
+  </script>
+</head>
+<body>
+<div class="reveal">
+  <div class="slides">
+    <!-- intro -->
+    <!-- ========================================= -->
+    <section>
+      <h1>ES6</h1>
+      <p>Commons</p>
+    </section>
+    
+    <!-- agenda -->
+    <!-- ========================================= -->
+    <section style="text-align:left;">
+      <h2>Agenda</h2>
+      <ul style="font-size: 35px;">
+        <li>History & Future</li>
+        <li>Features & Support</li>
+        <li>Declarations ( let, const )</li>
+        <li>Functions ( Rest params, Spread operator, Arrow functions )</li>
+        <li>Objects ( initializers, destructuring, assign )</li>
+        <li>Arrays, Maps and Sets</li>
+        <li>Classes & Modules</li>
+        <li>Promises, Iterators and Generators</li>
+      </ul>
+    </section>
+    
+    <!-- History & Future -->
+    <!-- ========================================= -->
+    <section>
+      <section>
+        <h2>History & Future</h2>
+      </section>
+      
+      <section>
+        <p>
+          The JavaScript standard is referred to officially as
+          <span class="important">“ECMAScript”</span>
+          (abbreviated <span class="important">“ES”</span>)
+        </p>
+      </section>
+      
+      <section>
+        <p>
+          The earliest versions
+          <span class="important">ES1</span> and
+          <span class="important">ES2</span> were not widely known or implemented
+        </p>
+        
+        <p class="fragment">
+          <span class="important">ES3</span>
+          was the first widespread baseline for JavaScript
+        </p>
+        
+        <p class="fragment">
+          In <span class="underlined">2009</span>, <span class="important">ES5</span>
+          was officially finalized
+          (later <span class="important">ES5.1</span> in <span class="underlined">2011</span>)
+        </p>
+        
+        <p class="fragment">
+          <span class="important">ES4</span>
+          never came out
+        </p>
+      </section>
+      
+      <section>
+        <h2>
+          <span class="important">ES6</span>
+        </h2>
+        <p>Known as</p>
+        <h2>
+          <span class="important">ES2015</span>
+        </h2>
+      </section>
+    </section>
+    
+    <!-- Features -->
+    <!-- ========================================= -->
+    <section class="stretch">
+      <section>
+        <h3>Features & Support</h3>
+      </section>
+      
+      <section>
+        <h2> Transpilers </h2>
+        <p class="fragment"> Babel or Traceur </p>
+        <p class="fragment"> Coffee script or Typescript </p>
+      </section>
+      
+      <section>
+        <h2><h2> Shims/Polyfills </h2></h2>
+      </section>
+    </section>
+    
+    <!-- Declarations ( let, const ) -->
+    <!-- ========================================= -->
+    <section>
+      <section>
+        <h2>Declarations</h2>
+      </section>
+  
+      <section>
+        <h2>let</h2>
+      </section>
+      
+      <section>
+        <p>Block scoping</p>
+        <pre>
+          <code class="JavaScript" data-trim data-noescape>
+            var a = 2;
+            
+            {
+              let a = 3;
+              console.log( a ); // 3
+            }
+            
+            console.log( a ); // 2
+          </code>
+        </pre>
+      </section>
+  
+      <section>
+        <p>Hoisting</p>
+        <pre>
+          <code class="JavaScript" data-trim data-noescape>
+            {
+              console.log( a ); // undefined
+              console.log( b ); // ReferenceError!
+            
+              var a;
+              let b;
+            }
+          </code>
+        </pre>
+      </section>
+      
+      <section>
+        <p>TDZ</p>
+        <pre>
+          <code class="JavaScript" data-trim data-noescape>
+            {
+              if (typeof a === "undefined") {
+                console.log( "cool" );
+              }
+            
+              if (typeof b === "undefined") { // ReferenceError!
+                // ..
+              }
+            
+              // ..
+              let b;
+            }
+          </code>
+        </pre>
+      </section>
+      
+      <section>
+        <p>let & for</p>
+        <pre>
+          <code class="JavaScript" data-trim data-noescape>
+            var funcs = [];
+            for (let i = 0; i < 5; i++) {
+              funcs.push(function(){
+                console.log( i );
+              });
+            }
+            funcs[3](); // 3
+          </code>
+        </pre>
+  
+        <pre class="fragment">
+          <code class="JavaScript" data-trim data-noescape>
+            var funcs = [];
+            for (var i = 0; i < 5; i++) {
+              funcs.push(function(){
+                console.log( i );
+              });
+            }
+            funcs[3](); // 5
+          </code>
+        </pre>
+      </section>
+  
+      <section>
+        <h2>const</h2>
+      </section>
+      
+      <section>
+        <p>Re-assign</p>
+        <pre>
+          <code class="JavaScript" data-trim data-noescape>
+            {
+              const a = 2;
+              console.log( a ); // 2
+            
+              a = 3; // TypeError!
+            }
+          </code>
+        </pre>
+      </section>
+      
+      <section>
+        <p>Mutate</p>
+        <pre>
+          <code class="JavaScript" data-trim data-noescape>
+            {
+              const a = [1,2,3];
+            
+              a.push( 4 );
+              console.log( a ); // [1,2,3,4]
+            
+              a = 42; // TypeError!
+            }
+          </code>
+        </pre>
+      </section>
+    </section>
+    
+    <!-- Functions ( Rest params, Spread operator, Arrow functions ) -->
+    <!-- =========================================================== -->
+    <section>
+      <section>
+        <h2>Functions</h2>
+      </section>
+  
+      <section>
+        <h2>Spread operator</h2>
+      </section>
+      
+      <section>
+        <pre>
+          <code class="JavaScript" data-trim data-noescape>
+            function foo(x,y,z) {
+              console.log( x, y, z );
+            }
+            
+            foo( ...[1,2,3] ); // 1 2 3
+          </code>
+        </pre>
+        
+        <pre class="fragment">
+          <code class="JavaScript" data-trim data-noescape>
+            // pre ES6
+            foo.apply( null, [1,2,3] ); // 1 2 3
+          </code>
+        </pre>
+        
+        <pre class="fragment">
+          <code class="JavaScript" data-trim data-noescape>
+            var a = [2,3,4];
+            var b = [ 1, ...a, 5 ];
+            console.log( b ); // [1,2,3,4,5]
+          </code>
+        </pre>
+      </section>
+  
+      <section>
+        <h2>Rest params</h2>
+      </section>
+      
+      <section>
+        <pre>
+          <code class="JavaScript" data-trim data-noescape>
+            function foo(...args) {
+              console.log( args );
+            }
+            
+            foo( 1, 2, 3, 4, 5); // [1,2,3,4,5]
+          </code>
+        </pre>
+        
+        <pre class="fragment">
+          <code class="JavaScript" data-trim data-noescape>
+            function foo(x, y, ...z) {
+              console.log( x, y, z );
+            }
+            
+            foo( 1, 2, 3, 4, 5 ); // 1 2 [3,4,5]
+          </code>
+        </pre>
+      </section>
+  
+      <section>
+        <h2>Arrow functions</h2>
+      </section>
+      
+      <section>
+        <pre>
+          <code class="JavaScript" data-trim data-noescape>
+            function foo(x,y) {
+              return x + y;
+            }
+            
+            var foo = (x,y) => x + y;
+          </code>
+        </pre>
+      </section>
+      
+      <section>
+        <p>variations</p>
+        <pre>
+          <code class="JavaScript" data-trim data-noescape>
+            var f1 = () => 12;
+            
+            var f2 = x => x * 2;
+            
+            var f3 = (x,y) => {
+              var z = x * 2 + y;
+              y++;
+              x *= 3;
+              return (x + y + z) / 2;
+            };
+          </code>
+        </pre>
+      </section>
+      
+      <section>
+        <p>callbacks</p>
+        <pre>
+          <code class="JavaScript" data-trim data-noescape>
+            var a = [1,2,3,4,5];
+            a = a.map( v => v * 2 );
+            console.log( a ); // [2,4,6,8,10]
+          </code>
+        </pre>
+      </section>
+      
+      <section>
+        <p>lexical this</p>
+        <pre>
+          <code class="JavaScript" data-trim data-noescape>
+            var controller = {
+              makeRequest: function(..) {
+                var self = this;
+                btn.addEventListener('click', function(){
+                  // ..
+                  self.makeRequest(..);
+                }, false );
+              }
+            };
+          </code>
+        </pre>
+  
+        <pre class="fragment">
+          <code class="JavaScript" data-trim data-noescape>
+            var controller = {
+              makeRequest: function(..) {
+                btn.addEventListener('click', () => {
+                  // ..
+                  this.makeRequest(..);
+                }, false );
+              }
+            };
+          </code>
+        </pre>
+      </section>
+      
+    </section>
+    
+    <!-- Objects ( initializers, destructuring, assign ) -->
+    <!-- =============================================== -->
+    <section>
+      <section>
+        <h2>Objects</h2>
+      </section>
+      
+      <section>
+        <h2>initializers</h2>
+      </section>
+      
+      <section>
+        <h2>destructuring</h2>
+      </section>
+      
+      <section>
+        <h2>Object.assign</h2>
+      </section>
+    </section>
+    
+    <!-- Arrays, Maps and Sets -->
+    <!-- ========================================= -->
+    <section>
+      <section>
+        <h2>Arrays, Maps and Sets</h2>
+      </section>
+      
+      <section>
+        <h2>Arrays</h2>
+      </section>
+      
+      <section>
+        <h2>Maps</h2>
+      </section>
+      
+      <section>
+        <h2>Sets</h2>
+      </section>
+    </section>
+    
+    <!-- Classes & Modules -->
+    <!-- ========================================= -->
+    <section>
+      <section>
+        <h2>Classes & Modules</h2>
+      </section>
+      
+      <section>
+        <h2>Classes</h2>
+      </section>
+      
+      <section>
+        <h2>Modules</h2>
+      </section>
+    </section>
+    
+    <!-- Promises, Iterators and Generators -->
+    <!-- ========================================= -->
+    <section>
+      <section>
+        <h2>Promises, Iterators and Generators</h2>
+      </section>
+      
+      <section>
+        <h2>Promises</h2>
+      </section>
+      
+      <section>
+        <h2>Iterators</h2>
+      </section>
+      
+      <section>
+        <h2>Generators</h2>
+      </section>
+    </section>
+    
+    <!-- Any Questions & Thanks -->
+    <!-- ========================================= -->
+    <section>
+      <section>
+        <h2>Any Questions?</h2>
+      </section>
+      
+      <section>
+        <h2>Thanks :)</h2>
+      </section>
+    </section>
+  </div>
+</div>
 
-		<title>reveal.js</title>
+<script src="lib/js/head.min.js"></script>
+<script src="js/reveal.js"></script>
 
-		<link rel="stylesheet" href="css/reveal.css">
-		<link rel="stylesheet" href="css/theme/black.css">
-
-		<!-- Theme used for syntax highlighting of code -->
-		<link rel="stylesheet" href="lib/css/zenburn.css">
-
-		<!-- Printing and PDF exports -->
-		<script>
-			var link = document.createElement( 'link' );
-			link.rel = 'stylesheet';
-			link.type = 'text/css';
-			link.href = window.location.search.match( /print-pdf/gi ) ? 'css/print/pdf.css' : 'css/print/paper.css';
-			document.getElementsByTagName( 'head' )[0].appendChild( link );
-		</script>
-	</head>
-	<body>
-		<div class="reveal">
-			<div class="slides">
-				<section>Slide 1</section>
-				<section>Slide 2</section>
-			</div>
-		</div>
-
-		<script src="lib/js/head.min.js"></script>
-		<script src="js/reveal.js"></script>
-
-		<script>
-			// More info about config & dependencies:
-			// - https://github.com/hakimel/reveal.js#configuration
-			// - https://github.com/hakimel/reveal.js#dependencies
-			Reveal.initialize({
-				dependencies: [
-					{ src: 'plugin/markdown/marked.js' },
-					{ src: 'plugin/markdown/markdown.js' },
-					{ src: 'plugin/notes/notes.js', async: true },
-					{ src: 'plugin/highlight/highlight.js', async: true, callback: function() { hljs.initHighlightingOnLoad(); } }
-				]
-			});
-		</script>
-	</body>
+<script>
+  // More info about config & dependencies:
+  // - https://github.com/hakimel/reveal.js#configuration
+  // - https://github.com/hakimel/reveal.js#dependencies
+  Reveal.initialize({
+    dependencies: [
+      {src: 'plugin/markdown/marked.js'},
+      {src: 'plugin/markdown/markdown.js'},
+      {src: 'plugin/notes/notes.js', async: true},
+      {
+        src: 'plugin/highlight/highlight.js', async: true, callback: function () {
+        hljs.initHighlightingOnLoad();
+        hljs.configure({
+          tabReplace: '  ' // 24 spaces
+        });
+      }
+      }
+    ]
+  });
+</script>
+</body>
 </html>
