@@ -121,7 +121,7 @@
       <section>
         <h2>Declarations</h2>
       </section>
-  
+      
       <section>
         <h2>let</h2>
       </section>
@@ -141,7 +141,7 @@
           </code>
         </pre>
       </section>
-  
+      
       <section>
         <p>Hoisting</p>
         <pre>
@@ -190,7 +190,7 @@
             funcs[3](); // 3
           </code>
         </pre>
-  
+        
         <pre class="fragment">
           <code class="JavaScript" data-trim data-noescape>
             var funcs = [];
@@ -203,7 +203,7 @@
           </code>
         </pre>
       </section>
-  
+      
       <section>
         <h2>const</h2>
       </section>
@@ -245,7 +245,7 @@
       <section>
         <h2>Functions</h2>
       </section>
-  
+      
       <section>
         <h2>Spread operator</h2>
       </section>
@@ -276,7 +276,7 @@
           </code>
         </pre>
       </section>
-  
+      
       <section>
         <h2>Rest params</h2>
       </section>
@@ -302,7 +302,85 @@
           </code>
         </pre>
       </section>
-  
+      
+      <section>
+        <h2>Default Parameter Values</h2>
+      </section>
+      
+      <section>
+        <pre>
+          <code class="JavaScript" data-trim data-noescape>
+            function foo(x,y) {
+              x = x || 11;
+              y = y || 31;
+              console.log( x + y );
+            }
+            
+            foo(); // 42
+            foo( 5, 6 ); // 11
+            foo( 5 ); // 36
+            foo( null, 6 ); // 17
+            foo( 0, 42 ); // 53 <-- Oops, not 42
+          </code>
+        </pre>
+      </section>
+      
+      <section>
+        <pre>
+          <code class="JavaScript" data-trim data-noescape>
+            function foo(x,y) {
+              x = (x !== undefined) ? x : 11;
+              y = (y !== undefined) ? y : 31;
+            
+              console.log( x + y );
+            }
+            
+            foo( 0, 42 ); // 42
+            foo( undefined, 6 ); // 17
+          </code>
+        </pre>
+      </section>
+      
+      <section>
+        <pre>
+          <code class="JavaScript" data-trim data-noescape>
+            function foo(x = 11, y = 31) {
+              console.log( x + y );
+            }
+            
+            foo(); // 42
+            foo( 5, 6 ); // 11
+            foo( 0, 42 ); // 42
+            foo( 5 ); // 36
+            foo( 5, undefined ); // 36 <-- `undefined` is missing
+            foo( 5, null ); // 5 <-- null coerces to `0`
+            foo( undefined, 6 ); // 17 <-- `undefined` is missing
+            foo( null, 6 ); // 6 <-- null coerces to `0`
+          </code>
+        </pre>
+      </section>
+      
+      <section>
+        <pre>
+          <code class="JavaScript" data-trim data-noescape>
+            function bar(val) {
+              console.log( "bar called!" );
+              return y + val;
+            }
+            
+            function foo(x = y + 3, z = bar( x )) {
+              console.log( x, z );
+            }
+            
+            var y = 5;
+            foo();      // "bar called" // 8 13
+            foo( 10 );  // "bar called" // 10 15
+            y = 6;
+            foo( undefined, 10 ); // 9 10
+          </code>
+        </pre>
+      </section>
+      
       <section>
         <h2>Arrow functions</h2>
       </section>
@@ -363,7 +441,7 @@
             };
           </code>
         </pre>
-  
+        
         <pre class="fragment">
           <code class="JavaScript" data-trim data-noescape>
             var controller = {
@@ -377,7 +455,7 @@
           </code>
         </pre>
       </section>
-      
+    
     </section>
     
     <!-- Objects ( initializers, destructuring, assign ) -->
@@ -388,11 +466,139 @@
       </section>
       
       <section>
-        <h2>initializers</h2>
+        <h2>destructuring</h2>
+      </section>
+  
+      <section>
+        <pre>
+          <code class="JavaScript" data-trim data-noescape>
+            function foo() {
+              return [1,2,3];
+            }
+            var tmp = foo(),
+            a = tmp[0], b = tmp[1], c = tmp[2];
+            console.log( a, b, c ); // 1 2 3
+          </code>
+        </pre>
+        
+        <pre class="fragment">
+          <code class="JavaScript" data-trim data-noescape>
+            function bar() {
+              return {
+                x: 4,
+                y: 5,
+                z: 6
+              };
+            }
+            var tmp = bar(),
+            x = tmp.x, y = tmp.y, z = tmp.z;
+            console.log( x, y, z ); // 4 5 6
+          </code>
+        </pre>
       </section>
       
       <section>
-        <h2>destructuring</h2>
+        <pre>
+          <code class="JavaScript" data-trim data-noescape>
+            var [ a, b, c ] = foo();
+            var { x: x, y: y, z: z } = bar();
+            var { x, y, z } = bar();
+            console.log( a, b, c ); // 1 2 3
+            console.log( x, y, z ); // 4 5 6
+            console.log( x, y, z ); // 4 5 6
+          </code>
+        </pre>
+        
+        <pre class="fragment">
+          <code class="JavaScript" data-trim data-noescape>
+            var { x: bam, y: baz, z: bap } = bar();
+            console.log( bam, baz, bap ); // 4 5 6
+            console.log( x, y, z ); // ReferenceError
+          </code>
+        </pre>
+      </section>
+      
+      <section>
+        <p>a lot of use cases</p>
+        <p class="fragment">Mapping objects</p>
+        <pre class="fragment">
+          <code class="JavaScript" data-trim data-noescape>
+            var o1 = { a: 1, b: 2, c: 3 },
+            o2 = {};
+            ( { a: o2.x, b: o2.y, c: o2.z } = o1 );
+            console.log( o2.x, o2.y, o2.z ); // 1 2 3
+          </code>
+        </pre>
+      </section>
+  
+      <section>
+        <p>Or you can map an object to an array, such as</p>
+        <pre>
+          <code class="JavaScript" data-trim data-noescape>
+            var o1 = { a: 1, b: 2, c: 3 },
+            a2 = [];
+            
+            ( { a: a2[0], b: a2[1], c: a2[2] } = o1 );
+            
+            console.log( a2 ); // [1,2,3];
+          </code>
+        </pre>
+      </section>
+  
+      <section>
+        <p>Or the other way around</p>
+        <pre>
+          <code class="JavaScript" data-trim data-noescape>
+            var a1 = [ 1, 2, 3 ],
+            o2 = {};
+            
+            [ o2.a, o2.b, o2.c ] = a1;
+            
+            console.log( o2.a, o2.b, o2.c ); // 1 2 3
+          </code>
+        </pre>
+      </section>
+  
+      <section>
+        <p>Or you could reorder one array to another</p>
+        <pre>
+          <code class="JavaScript" data-trim data-noescape>
+            var a1 = [ 1, 2, 3 ],
+            a2 = [];
+            
+            [ a2[2], a2[0], a2[1] ] = a1;
+            
+            console.log( a2 ); // [2,3,1];
+          </code>
+        </pre>
+      </section>
+  
+      <section>
+        <p>Swap two variables</p>
+        <pre>
+          <code class="JavaScript" data-trim data-noescape>
+            var x = 10, y = 20;
+            
+            [ y, x ] = [ x, y ];
+            
+            console.log( x, y ); // 20 10
+          </code>
+        </pre>
+      </section>
+      
+      <section>
+        <p>Destructuring parameters</p>
+        <pre>
+          <code class="JavaScript" data-trim data-noescape>
+            function foo( [ x, y ] ) {
+              console.log( x, y );
+            }
+            
+            foo( [ 1, 2 ] ); // 1 2
+            foo( [ 1 ] ); // 1 undefined
+            foo( [] ); // undefined undefined
+          </code>
+        </pre>
       </section>
       
       <section>
