@@ -41,8 +41,7 @@
         <li>Declarations ( let, const )</li>
         <li>Functions ( Rest params, Spread operator, Default Params, Arrow functions )</li>
         <li>Objects ( Destructuring, Assign )</li>
-        <li>Arrays, Maps and Sets</li>
-        <li>Classes & Modules</li>
+        <li>Modules</li>
         <li>What is next ?</li>
       </ul>
     </section>
@@ -99,7 +98,10 @@
     
     <!-- Features -->
     <!-- ========================================= -->
-    <section class="stretch">
+    
+    <section>
+      <section data-background-image="img/features.png" data-background-size="cover"></section>
+      
       <section>
         <h3>Features & Support</h3>
       </section>
@@ -612,26 +614,6 @@
       </section>
     </section>
     
-    <!-- Arrays, Maps and Sets -->
-    <!-- ========================================= -->
-    <section>
-      <section>
-        <h2>Arrays, Maps and Sets</h2>
-      </section>
-      
-      <section>
-        <h2>Arrays</h2>
-      </section>
-      
-      <section>
-        <h2>Maps</h2>
-      </section>
-      
-      <section>
-        <h2>Sets</h2>
-      </section>
-    </section>
-    
     <!-- Classes & Modules -->
     <!-- ========================================= -->
     <section>
@@ -686,7 +668,7 @@
       <section>
         <h2>The new way</h2>
       </section>
-  
+      
       <section>
         <h2>`export`ing API Members</h2>
       </section>
@@ -761,41 +743,37 @@
           </code>
         </pre>
       </section>
-    </section>
-  
-    <section>
-      <h2>`import`ing API Members</h2>
-    </section>
-    
-    <section>
-      <p>named imports</p>
-      <pre>
+      
+      <section>
+        <h2>`import`ing API Members</h2>
+      </section>
+      
+      <section>
+        <p>named imports</p>
+        <pre>
         <code class="JavaScript" data-trim data-noescape>
           import { foo } from "foo";
           foo();
         </code>
       </pre>
-      
-      <pre class="fragment">
+        
+        <pre class="fragment">
         <code class="JavaScript" data-trim data-noescape>
           import { foo as theFooFunc } from "foo";
           theFooFunc();
         </code>
       </pre>
-    </section>
-    
-    <section>
-      <p>default imports</p>
-      <pre>
+      </section>
+      
+      <section>
+        <p>default imports</p>
+        <pre>
         <code class="JavaScript" data-trim data-noescape>
           export default function foo() { .. }
           export function bar() { .. }
           export function baz() { .. }
-          
           // =========================
-          
           import FOOFN, { bar, baz as BAZ } from "foo";
-          
           FOOFN();
           bar();
           BAZ();
@@ -807,16 +785,14 @@
           export function bar() { .. }
           export var x = 42;
           export function baz() { .. }
-          
           // =========================
-          
           import * as foo from "foo";
-
           foo.bar();
           foo.x; // 42
           foo.baz();
         </code>
       </pre>
+      </section>
     </section>
     
     <!-- Promises, Iterators and Generators -->
@@ -827,7 +803,8 @@
       </section>
       
       <section>
-        <p>Symbols</p>
+        <p>Arrays, Maps and Sets</p>
+        <p class="fragment">Symbols</p>
         <p class="fragment">Iterators</p>
         <p class="fragment">Generators</p>
         <p class="fragment">Promises</p>
